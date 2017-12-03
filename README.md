@@ -1,1 +1,1 @@
-solutions to http://adventofcode.com/2017 by Nim
+solutions to http://adventofcode.com/2017 in Nim
