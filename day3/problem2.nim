@@ -13,7 +13,6 @@ var
     storedVal = initTable[tuple[x: int, y: int], int]()
 storedVal[(x: 0, y: 0)] = 1
 
-var i = 1
 while true:
     var sumOfAdjacent: int = 0
     for x in countup(currentX-1, currentX+1):
