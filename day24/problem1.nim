@@ -1,0 +1,45 @@
+import strutils, sequtils, sets, deques
+
+var
+    graph = newSeqWith(100, newSeq[tuple[to, id: int]]())
+    edges = newSeq[tuple[a, b: int]]()
+while true:
+    try:
+        let
+            input = stdin.readLine
+            a = input.split("/")[0].parseInt
+            b = input.split("/")[1].parseInt
+        graph[a].add((b, edges.len))
+        graph[b].add((a, edges.len))
+        edges.add((a, b))
+    except IOError:
+        break
+
+var
+    que = initDeque[tuple[current: int, visited: int64]]()
+    done = initSet[tuple[current: int, visited: int64]]()
+    ans = 0
+que.addLast((0, 0'i64))
+done.incl((0, 0'i64))
+while que.len > 0:
+    let tmp = que.popFirst
+    var pushed = false
+    for edge in graph[tmp.current]:
+        if (tmp.visited and (1'i64 shl edge.id)) != 0:
+            continue
+        let next = (edge.to, tmp.visited or (1'i64 shl edge.id))
+        if done.contains(next):
+            continue
+        done.incl(next)
+        que.addLast(next)
+        pushed = true
+    
+    if not pushed:
+        var sum = 0
+        for i in 0..edges.high:
+            if (tmp.visited and (1'i64 shl i)) == 0:
+                continue
+            sum += edges[i].a + edges[i].b
+        ans = max(ans, sum)
+
+echo(ans)
